@@ -33,7 +33,8 @@ class Situation:
     def show_prediction_process(self, axs, axs_slayter_ws, ax_win_normed, ax_win_front, d):
         bassin_vals = self.signal[d.b1: d.b2+1]
         global_indexes = list(range(d.b1, d.b2 + 1))
-        compromise_set = CompromiseSet(vals=bassin_vals, auto_prediction=self.auto.get_prediction(), point=d.point, val=d.val)
+        point = d.point-d.b1
+        compromise_set = CompromiseSet(vals=bassin_vals, auto_prediction=self.auto.get_prediction(), point=point, val=d.val)
         pareto_points_local = compromise_set.get_pareto_indexes()
         pareto_global = list([local + d.b1 for local in pareto_points_local])
         self._draw_pareto(axs, pareto_global)
@@ -45,7 +46,7 @@ class Situation:
         axs_slayter_ws.scatter(d.point, 0, color='red')
         self._draw_bassin(axs_slayter_ws, len(self.signal), d.b1, d.b2)
         self._draw_slayter_front_ws(axs_slayter_ws, ws, global_indexes)
-        print("W=" + str(compromise_set.get_W()))
+
 
         win_normed_list = compromise_set.get_win_normed_list()
         errs_val_normed, errs_auto_normed = compromise_set.get_errs_normed()
@@ -58,9 +59,15 @@ class Situation:
         win_normed_front = compromise_set.get_win_compromise_front()
         ax_win_front.set_xticks(range(0, len(self.signal), 5))
         ax_win_front.set_xlim(xmax=len(self.signal), xmin=0)
+        ax_win_front.set_ylim(ax_win_normed.get_ylim())
         ax_win_front.scatter(d.point, 0, color='red')
         self._draw_win_normed_front(ax_win_front, win_normed_front, global_indexes)
         self._draw_bassin(ax_win_front, len(self.signal), d.b1, d.b2)
+
+        W = compromise_set.get_W()
+        print("W=" + str(W))
+        return W
+
 
 
     def draw_prediction(self, ax, d):
@@ -103,7 +110,7 @@ class Situation:
         ax.bar(global_indexes, win_normed_front, color='blue', label="win_normed_front", alpha=0.4)
         make_arrows(ax)
 
-if __name__ == "__main__":
+def t1(d):
     log = HtmlLogger("VIS_situation")
     situation = Situation()
     fig, axss = plt.subplots(4, sharex=True, figsize=(8, 12), dpi=80)
@@ -115,21 +122,29 @@ if __name__ == "__main__":
     situation.draw_signal(axs)
 
 
-    d = Prediciton(val=100, point=20, b1=10, b2=30)
     situation.draw_prediction(axs, d)
 
-    #situation.add_fact(point=25)
-    #situation.add_fact(point=40)
-    #situation.add_fact(point=21)
+    # situation.add_fact(point=25)
+    # situation.add_fact(point=40)
+    # situation.add_fact(point=21)
     situation.draw_all_about_auto(axs)
 
-    #fig_slayter, axs_slayter = plt.subplots()
+    # fig_slayter, axs_slayter = plt.subplots()
     situation.show_prediction_process(axs, axs_slayter_ws, ax_win_normed, ax_win_front, d)
-
 
     for ax in axss:
         ax.legend(fancybox=True, framealpha=0.5)
 
-    #log.add_fig(fig)
+    # log.add_fig(fig)
 
     plt.show()
+
+if __name__ == "__main__":
+    d = Prediciton(val=100, point=20, b1=10, b2=30)
+    t1(d)
+
+    d = Prediciton(val=120, point=20, b1=10, b2=30)
+    t1(d)
+
+    d = Prediciton(val=120, point=26, b1=10, b2=30)
+    t1(d)

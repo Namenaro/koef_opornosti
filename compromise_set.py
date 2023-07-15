@@ -1,7 +1,7 @@
 from w_handler import WHandler
 
-def v1_better_val2(val1, val2):
-    if val1> val2:
+def v1_better_than_val2(val1, val2):
+    if val1 > val2:
         return True
     return False
 
@@ -51,7 +51,7 @@ class CompromiseSet:
             if new_index_in_arr < 0:
                 break
             new_value = win_normed_list[new_index_in_arr]
-            if v1_better_val2(new_value, current_best):
+            if v1_better_than_val2(new_value, current_best):
                 current_best = new_value
                 self.indexes_pareto.append(new_index_in_arr)
             lefts_slayter_wins.append(current_best)
@@ -67,7 +67,7 @@ class CompromiseSet:
             if new_index_in_arr == len(win_normed_list):
                 break
             new_value = win_normed_list[new_index_in_arr]
-            if v1_better_val2(new_value, current_best):
+            if v1_better_than_val2(new_value, current_best):
                 current_best = new_value
                 self.indexes_pareto.append(new_index_in_arr)
             rights_slayter_wins.append(current_best)
