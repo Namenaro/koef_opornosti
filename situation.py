@@ -143,6 +143,7 @@ if __name__ == "__main__":
     d = Prediciton(val=100, point=20, b1=10, b2=30)
     t1(d)
 
+
     d = Prediciton(val=120, point=20, b1=10, b2=30)
     t1(d)
 
