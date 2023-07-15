@@ -54,10 +54,11 @@ class WHandler:
     def get_win_normed_list(self):
         return self.win_normed_list
 
-    def get_all_ws(self):
+    def get_all_ws(self, slayter_compromise_front_win):
         w_arr = []
-        for index in range(len(vals)):
-            w_arr.append(eval.get_w_for_index(index))
+        for index in range(len(self.vals)):
+            w = self.get_w_for_index(index, slayter_compromise_front_win[index])
+            w_arr.append(w)
         return w_arr
 
 if __name__ == "__main__":
