@@ -48,10 +48,11 @@ class Situation:
         print("W=" + str(compromise_set.get_W()))
 
         win_normed_list = compromise_set.get_win_normed_list()
+        errs_val_normed, errs_auto_normed = compromise_set.get_errs_normed()
         ax_win_normed.set_xticks(range(0, len(self.signal), 5))
         ax_win_normed.set_xlim(xmax=len(self.signal), xmin=0)
         ax_win_normed.scatter(d.point, 0, color='red')
-        self._draw_win_normed(ax_win_normed, win_normed_list, global_indexes)
+        self._draw_win_normed(ax_win_normed, win_normed_list, errs_val_normed, errs_auto_normed, global_indexes)
         self._draw_bassin(ax_win_normed, len(self.signal), d.b1, d.b2)
 
         win_normed_front = compromise_set.get_win_compromise_front()
@@ -92,8 +93,10 @@ class Situation:
         ax.bar(global_indexes, ws, color='yellow', label="w слейтер фронт", alpha=0.4)
         make_arrows(ax)
 
-    def _draw_win_normed(self, ax, win_normed, global_indexes):
+    def _draw_win_normed(self, ax, win_normed, errs_val_normed, errs_auto_normed, global_indexes):
         ax.bar(global_indexes, win_normed, color='blue', label="win_normed", alpha=0.4)
+        ax.plot(global_indexes,errs_val_normed, label='ошибка нового')
+        ax.plot(global_indexes,errs_auto_normed, label='ошибка старого')
         make_arrows(ax)
 
     def _draw_win_normed_front(self, ax, win_normed_front, global_indexes):
@@ -105,14 +108,14 @@ if __name__ == "__main__":
     situation = Situation()
     fig, axss = plt.subplots(4, sharex=True, figsize=(8, 12), dpi=80)
     axs = axss[0]
-    axs_slayter_ws = axss[1]
-    ax_win_normed = axss[2]
-    ax_win_front = axss[3]
+    axs_slayter_ws = axss[3]
+    ax_win_normed = axss[1]
+    ax_win_front = axss[2]
 
     situation.draw_signal(axs)
 
 
-    d = Prediciton(val=40, point=20, b1=10, b2=30)
+    d = Prediciton(val=100, point=20, b1=10, b2=30)
     situation.draw_prediction(axs, d)
 
     #situation.add_fact(point=25)

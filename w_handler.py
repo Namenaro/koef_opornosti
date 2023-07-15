@@ -12,18 +12,20 @@ class WHandler:
         self.win_normed_list = None
         self.win_normed_distr = None
         self.mean_abs_win_normed = None
+        self.errs_val_normed = None
+        self.errs_auto_normed = None
 
         self._init_win_info()
 
     def _init_win_info(self):
         divider = sum(self.vals)
-        errs_val_normed = list([abs(self.vals[i] - self.val) / divider for i in range(len(self.vals))])
-        errs_auto_normed = list([abs(self.vals[i] - self.auto_prediction[i]) / divider for i in range(len(self.vals))])
+        self.errs_val_normed = list([abs(self.vals[i] - self.val) / divider for i in range(len(self.vals))])
+        self.errs_auto_normed = list([abs(self.vals[i] - self.auto_prediction[i]) / divider for i in range(len(self.vals))])
 
         win_normed_list = []
-        for i in range(len(errs_auto_normed)):
-            abs_w_normed = abs(errs_val_normed[i] - errs_auto_normed[i])
-            if errs_auto_normed[i]<errs_val_normed[i]: # старое лучше, чем новое
+        for i in range(len(self.errs_auto_normed)):
+            abs_w_normed = abs(self.errs_val_normed[i] - self.errs_auto_normed[i])
+            if self.errs_auto_normed[i]<self.errs_val_normed[i]: # старое лучше, чем новое
                 win_normed_list.append(-abs_w_normed)
             else:
                 win_normed_list.append(abs_w_normed)
@@ -53,6 +55,9 @@ class WHandler:
 
     def get_win_normed_list(self):
         return self.win_normed_list
+
+    def get_errs_normed(self):
+        return self.errs_val_normed, self.errs_auto_normed
 
     def get_all_ws(self, slayter_compromise_front_win):
         w_arr = []

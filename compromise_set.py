@@ -30,6 +30,9 @@ class CompromiseSet:
     def get_win_normed_list(self):
         return self.w_handler.get_win_normed_list()
 
+    def get_errs_normed(self):
+        return self.w_handler.get_errs_normed()
+
     def get_win_compromise_front(self):
         return self.slayter_compromise_front_win
 
