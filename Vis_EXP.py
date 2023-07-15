@@ -14,6 +14,7 @@ def t1():
     auto = Auto(bassin_len=len(vals))
     auto.set_constant(mean)
 
+
     good_point = 0
     vis_koef_calc(vals, good_point, auto)
 
