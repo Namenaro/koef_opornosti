@@ -22,7 +22,7 @@ def t1():
     vis_koef_calc(vals, bad_point, auto)
 
 def vis_koef_calc(vals, point, auto):
-    auto_prediction = auto.get_prediction_without_facts()
+    auto_prediction = auto.get_prediction()
 
     compromise_set = CompromiseSet(vals, auto_prediction, point, val=vals[point])
     print("W прямого попадания = " + str(compromise_set.get_W()))

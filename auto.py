@@ -31,7 +31,7 @@ class Auto:
         self.constant = constant
         self.facts = []
 
-    def get_prediction_without_facts(self):
+    def get_prediction(self):
         if self.constant is not None:
             return [self.constant] * self.bassin_len
         return self.get_prediction_by_facts_interpolation()
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     auto = Auto(bassin_len=7)
     auto.set_constant(5)
-    prediction = auto.get_prediction_without_facts()
+    prediction = auto.get_prediction()
     #ax.plot(prediction)
 
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     auto.add_fact(point=2, val=0)
     auto.add_fact(point=4, val=3)
 
-    prediction = auto.get_prediction_without_facts()
+    prediction = auto.get_prediction()
 
 
     ax.plot(prediction)
