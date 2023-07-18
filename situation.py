@@ -18,8 +18,10 @@ class Prediciton:
         self.b2 = b2
 
 class Situation:
-    def __init__(self):
-        self.signal = get_mini_ECG()
+    def __init__(self, signal=None):
+        self.signal = signal
+        if self.signal is None:
+            self.signal= get_mini_ECG()
 
         # инициализируем авто-предсказатель
         mean = statistics.mean(self.signal)
@@ -140,12 +142,22 @@ def t1(d):
     plt.show()
 
 if __name__ == "__main__":
-    d = Prediciton(val=100, point=20, b1=10, b2=30)
+    best_point = 35
+    worst_point=26
+
+    point = worst_point
+    signal = get_mini_ECG()
+    val = signal[point]
+
+
+
+
+    d = Prediciton(val=val, point=point, b1=10, b2=50)
     t1(d)
 
 
-    d = Prediciton(val=120, point=20, b1=10, b2=30)
+    d = Prediciton(val=val, point=point+3, b1=10, b2=50)
     t1(d)
 
-    d = Prediciton(val=120, point=26, b1=10, b2=30)
+    d = Prediciton(val=val, point=point-6,  b1=10, b2=50)
     t1(d)
